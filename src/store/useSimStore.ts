@@ -24,7 +24,7 @@ interface SimState {
 }
 
 export const useSimStore = create<SimState>((set) => ({
-  speed: 5,
+  speed: 1,
   paused: false,
   showOrbits: true,
   showLabels: true,
