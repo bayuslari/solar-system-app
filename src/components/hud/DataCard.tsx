@@ -6,9 +6,10 @@ import { fmtNumber, fmtPeriod } from '../../utils/format';
 export function DataCard() {
   const selectedKind = useSimStore((s) => s.selectedKind);
   const selectedId = useSimStore((s) => s.selectedId);
-  const deselect = useSimStore((s) => s.deselect);
+  const cardDismissed = useSimStore((s) => s.cardDismissed);
+  const dismissCard = useSimStore((s) => s.dismissCard);
 
-  const visible = selectedKind !== null && selectedId !== null;
+  const visible = selectedKind !== null && selectedId !== null && !cardDismissed;
 
   let body: ReactNode = null;
   let name = '';
@@ -115,7 +116,7 @@ export function DataCard() {
           <div className="data-card-name">{name || '—'}</div>
           {sub && <div className="data-card-sub">{sub}</div>}
         </div>
-        <button className="data-card-close" onClick={deselect} aria-label="Close">
+        <button className="data-card-close" onClick={dismissCard} aria-label="Close">
           ×
         </button>
       </div>

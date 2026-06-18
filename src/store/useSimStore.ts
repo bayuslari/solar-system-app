@@ -9,6 +9,7 @@ interface SimState {
   selectedKind: SelectedKind;
   selectedId: string | null;
   focusRadius: number;
+  cardDismissed: boolean;
   resetSignal: number;
 
   setSpeed: (v: number) => void;
@@ -17,6 +18,7 @@ interface SimState {
   toggleOrbits: () => void;
   toggleLabels: () => void;
   select: (kind: SelectedKind, id: string, focusRadius: number) => void;
+  dismissCard: () => void;
   deselect: () => void;
   resetView: () => void;
 }
@@ -29,6 +31,7 @@ export const useSimStore = create<SimState>((set) => ({
   selectedKind: null,
   selectedId: null,
   focusRadius: 110,
+  cardDismissed: false,
   resetSignal: 0,
 
   setSpeed: (v) => set({ speed: v }),
@@ -37,12 +40,16 @@ export const useSimStore = create<SimState>((set) => ({
   toggleOrbits: () => set((s) => ({ showOrbits: !s.showOrbits })),
   toggleLabels: () => set((s) => ({ showLabels: !s.showLabels })),
   select: (kind, id, focusRadius) =>
-    set({ selectedKind: kind, selectedId: id, focusRadius }),
-  deselect: () => set({ selectedKind: null, selectedId: null }),
+    set({ selectedKind: kind, selectedId: id, focusRadius, cardDismissed: false }),
+  // Closes the info card but keeps the object selected so the camera keeps
+  // tracking it. Re-selecting (chip or 3D click) reopens the card.
+  dismissCard: () => set({ cardDismissed: true }),
+  deselect: () => set({ selectedKind: null, selectedId: null, cardDismissed: false }),
   resetView: () =>
     set((s) => ({
       selectedKind: null,
       selectedId: null,
+      cardDismissed: false,
       resetSignal: s.resetSignal + 1,
     })),
 }));
