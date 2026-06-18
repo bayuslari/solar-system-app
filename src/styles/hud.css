@@ -29,6 +29,61 @@ body,
   position: fixed;
   inset: 0;
 }
+/* Fade the fully-textured scene in once preloading finishes, so it eases in
+   instead of popping after the loading screen. */
+.app-enter {
+  animation: app-fade-in 0.5s ease both;
+}
+@keyframes app-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* loading screen (shown while textures preload) */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--void);
+}
+.loading-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--signal);
+  font-weight: 700;
+}
+.loading-title {
+  font-size: 13px;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+}
+.loading-bar {
+  width: 200px;
+  max-width: 60vw;
+  height: 3px;
+  background: var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.loading-bar-fill {
+  height: 100%;
+  background: var(--ember);
+  transition: width 0.2s ease;
+}
+.loading-pct {
+  font-size: 10px;
+  color: var(--mute);
+  letter-spacing: 0.1em;
+}
 
 .canvas-wrap {
   position: absolute;

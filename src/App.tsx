@@ -1,13 +1,51 @@
+import { useEffect, useState } from 'react';
 import { Scene } from './components/Scene';
 import { Header } from './components/hud/Header';
 import { Controls } from './components/hud/Controls';
 import { Chips } from './components/hud/Chips';
 import { DataCard } from './components/hud/DataCard';
 import { EclipsePanel } from './components/hud/EclipsePanel';
+import { preloadTextures } from './hooks/useSafeTexture';
+import { allTexturePaths } from './utils/textureManifest';
+
+function LoadingScreen({ progress }: { progress: number }) {
+  return (
+    <div className="loading-screen">
+      <div className="loading-eyebrow">Solar System Telemetry</div>
+      <div className="loading-title">Initializing simulation…</div>
+      <div className="loading-bar">
+        <div className="loading-bar-fill" style={{ width: `${progress}%` }} />
+      </div>
+      <div className="loading-pct">{progress}%</div>
+    </div>
+  );
+}
 
 export default function App() {
+  const [ready, setReady] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    let active = true;
+    const reveal = () => {
+      if (active) setReady(true);
+    };
+    preloadTextures(allTexturePaths(), (loaded, total) => {
+      if (active) setProgress(Math.round((loaded / total) * 100));
+    }).then(reveal);
+    // Safety net: never block startup indefinitely if a texture stalls — the
+    // scene falls back to flat colors for anything still in flight.
+    const timer = setTimeout(reveal, 10000);
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
+  }, []);
+
+  if (!ready) return <LoadingScreen progress={progress} />;
+
   return (
-    <div className="app">
+    <div className="app app-enter">
       <div className="canvas-wrap">
         <Scene />
       </div>
