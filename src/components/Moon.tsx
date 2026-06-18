@@ -50,9 +50,9 @@ export function Moon({ moon }: Props) {
       >
         <sphereGeometry args={[moon.sceneSize, 16, 16]} />
         {texture ? (
-          <meshStandardMaterial map={texture} roughness={0.9} metalness={0} />
+          <meshBasicMaterial map={texture} />
         ) : (
-          <meshStandardMaterial color={'#b8b8b8'} roughness={0.9} metalness={0} />
+          <meshBasicMaterial color={'#b8b8b8'} />
         )}
       </mesh>
     </group>

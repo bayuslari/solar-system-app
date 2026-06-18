@@ -18,8 +18,6 @@ export function Scene() {
       onPointerMissed={() => deselect()}
       gl={{ antialias: true }}
       onCreated={({ gl }) => {
-        gl.toneMapping = THREE.ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.0;
         gl.outputColorSpace = THREE.SRGBColorSpace;
       }}
     >

@@ -67,9 +67,9 @@ export function Planet({ planet }: Props) {
             >
               <sphereGeometry args={[planet.sceneSize, 40, 40]} />
               {texture ? (
-                <meshStandardMaterial map={texture} roughness={0.9} metalness={0} />
+                <meshBasicMaterial map={texture} />
               ) : (
-                <meshStandardMaterial color={planet.color} roughness={0.9} metalness={0} />
+                <meshBasicMaterial color={planet.color} />
               )}
             </mesh>
 
