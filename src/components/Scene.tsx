@@ -16,11 +16,11 @@ export function Scene() {
     <Canvas
       camera={{ position: [70, 55, 95], fov: 50, near: 0.1, far: 2000 }}
       onPointerMissed={() => deselect()}
-      gl={{
-        antialias: true,
-        toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 1.0,
-        outputColorSpace: THREE.SRGBColorSpace,
+      gl={{ antialias: true }}
+      onCreated={({ gl }) => {
+        gl.toneMapping = THREE.ACESFilmicToneMapping;
+        gl.toneMappingExposure = 1.0;
+        gl.outputColorSpace = THREE.SRGBColorSpace;
       }}
     >
       <color attach="background" args={['#050810']} />
