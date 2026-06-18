@@ -28,24 +28,20 @@ export function Sun() {
       <pointLight color={0xffe6b3} intensity={450} decay={1.6} />
       <mesh ref={meshRef}>
         <sphereGeometry args={[SUN.sceneSize, 48, 48]} />
-        {/* toneMapped={false} keeps the sun's warm color stable: the default
-            ACES tone mapping otherwise clips the bright sun.jpg highlights to
-            white once the texture loads, washing the sphere out a second in. */}
+        {/* Tint the texture with the warm sun color so the sphere can never
+            render white: even a pure-white texel multiplied by this tint comes
+            out orange. This keeps the sun warm regardless of how bright the
+            loaded sun.jpg is or how tone mapping treats it — the earlier
+            toneMapped/additive approach let the bright texture wash out to
+            white once it loaded. */}
         {texture ? (
-          <meshBasicMaterial map={texture} toneMapped={false} />
+          <meshBasicMaterial map={texture} color={SUN.color} />
         ) : (
-          <meshBasicMaterial color={SUN.color} toneMapped={false} />
+          <meshBasicMaterial color={SUN.color} />
         )}
       </mesh>
       <sprite scale={[SUN.sceneSize * 6.2, SUN.sceneSize * 6.2, 1]}>
-        <spriteMaterial
-          map={getGlowTexture()}
-          transparent
-          depthWrite={false}
-          color={0xf2a93b}
-          toneMapped={false}
-          blending={THREE.AdditiveBlending}
-        />
+        <spriteMaterial map={getGlowTexture()} transparent depthWrite={false} color={0xf2a93b} />
       </sprite>
     </group>
   );

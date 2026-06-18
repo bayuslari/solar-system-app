@@ -223,10 +223,14 @@ button.active {
   opacity: 0;
   transform: translateY(8px);
   transition: opacity 0.25s, transform 0.25s;
+  /* When hidden the card is still in the DOM; without this it would keep
+     capturing touches over its rectangle and block dragging the scene. */
+  pointer-events: none;
 }
 .data-card.visible {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
 }
 .data-card-head {
   display: flex;
