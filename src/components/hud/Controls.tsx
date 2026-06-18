@@ -2,6 +2,24 @@ import { useSimStore } from '../../store/useSimStore';
 
 const SPEED_PRESETS = [1, 5, 30, 100, 365] as const;
 
+// The slider maps a continuous track to speed on a logarithmic scale. A linear
+// 0–365 track crammed the useful low speeds (1, 5) into the leftmost sliver,
+// which made them nearly impossible to hit by touch on mobile (where the preset
+// buttons are hidden). Log scaling gives speed 1 the whole left end of the track.
+const MIN_SPEED = 1;
+const MAX_SPEED = 365;
+const SLIDER_STEPS = 1000;
+const LOG_RATIO = Math.log(MAX_SPEED / MIN_SPEED);
+
+function sliderToSpeed(pos: number) {
+  return Math.round(MIN_SPEED * Math.exp((pos / SLIDER_STEPS) * LOG_RATIO));
+}
+
+function speedToSlider(speed: number) {
+  const clamped = Math.min(MAX_SPEED, Math.max(MIN_SPEED, speed));
+  return Math.round((Math.log(clamped / MIN_SPEED) / LOG_RATIO) * SLIDER_STEPS);
+}
+
 function formatSpeed(s: number) {
   if (s === 0) return '0 d/s';
   if (s >= 365) return `${(s / 365).toFixed(s % 365 === 0 ? 0 : 1)} yr/s`;
@@ -29,10 +47,10 @@ export function Controls() {
         <input
           type="range"
           min={0}
-          max={365}
+          max={SLIDER_STEPS}
           step={1}
-          value={speed}
-          onChange={(e) => setSpeed(Number(e.target.value))}
+          value={speedToSlider(speed)}
+          onChange={(e) => setSpeed(sliderToSpeed(Number(e.target.value)))}
         />
         <div className="speed-presets">
           {SPEED_PRESETS.map((s) => (
