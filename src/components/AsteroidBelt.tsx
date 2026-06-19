@@ -16,7 +16,6 @@ export function AsteroidBelt() {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const speed = useSimStore((s) => s.speed);
   const paused = useSimStore((s) => s.paused);
-  const select = useSimStore((s) => s.select);
 
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const count = ASTEROID_BELT.renderCount;
@@ -49,14 +48,7 @@ export function AsteroidBelt() {
 
   return (
     <group ref={groupRef}>
-      <instancedMesh
-        ref={meshRef}
-        args={[undefined, undefined, count]}
-        onClick={(e) => {
-          e.stopPropagation();
-          select('belt', 'belt', 40);
-        }}
-      >
+      <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
         <dodecahedronGeometry args={[1, 0]} />
         {/* Small emissive floor keeps the belt as visible as before now that
             ambient light is lower for the day/night effect. */}

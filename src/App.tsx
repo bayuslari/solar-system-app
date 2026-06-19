@@ -24,6 +24,7 @@ function LoadingScreen({ progress }: { progress: number }) {
 export default function App() {
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -51,13 +52,33 @@ export default function App() {
       </div>
       <div className="hud">
         <Header />
-        <Controls />
+
+        {/* Mobile-only: collapse the settings panels behind a hamburger so they
+            don't cover the scene. On desktop the button is hidden and the
+            drawer lays its children out in their usual fixed positions. */}
+        <button
+          className={'hamburger' + (menuOpen ? ' open' : '')}
+          aria-label="Toggle controls"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((o) => !o)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        {menuOpen && (
+          <div className="drawer-backdrop" onClick={() => setMenuOpen(false)} />
+        )}
+        <div className={'settings-drawer' + (menuOpen ? ' open' : '')}>
+          <Controls />
+          <EclipsePanel />
+        </div>
+
         <p className="scale-note">
           Sizes &amp; distances adjusted for visibility — not to true scale. Orbital
           inclinations are real.
         </p>
         <DataCard />
-        <EclipsePanel />
         <Chips />
       </div>
     </div>

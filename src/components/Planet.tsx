@@ -25,7 +25,6 @@ export function Planet({ planet }: Props) {
   const ringTexture = useSafeTexture(planet.ring?.texture);
 
   const showLabels = useSimStore((s) => s.showLabels);
-  const select = useSimStore((s) => s.select);
 
   useEffect(() => {
     if (meshRef.current) registerObject3D(planet.id, meshRef.current);
@@ -58,13 +57,7 @@ export function Planet({ planet }: Props) {
       <group rotation={[THREE.MathUtils.degToRad(planet.inclinationDeg), 0, 0]}>
         <group ref={orbitPivotRef}>
           <group position={[planet.sceneDist, 0, 0]}>
-            <mesh
-              ref={meshRef}
-              onClick={(e) => {
-                e.stopPropagation();
-                select('planet', planet.id, Math.max(6, planet.sceneSize * 7));
-              }}
-            >
+            <mesh ref={meshRef}>
               <sphereGeometry args={[planet.sceneSize, 40, 40]} />
               {/* Lit by the sun's point light so the sphere has a day side and
                   a dark night side. emissiveMap paints the same texture back at
@@ -75,7 +68,7 @@ export function Planet({ planet }: Props) {
                   map={texture}
                   emissive="#ffffff"
                   emissiveMap={texture}
-                  emissiveIntensity={0.25}
+                  emissiveIntensity={0.16}
                   roughness={1}
                   metalness={0}
                 />
@@ -83,7 +76,7 @@ export function Planet({ planet }: Props) {
                 <meshStandardMaterial
                   color={planet.color}
                   emissive={planet.color}
-                  emissiveIntensity={0.25}
+                  emissiveIntensity={0.16}
                   roughness={1}
                   metalness={0}
                 />

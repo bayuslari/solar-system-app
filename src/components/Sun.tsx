@@ -10,7 +10,6 @@ import { registerObject3D, unregisterObject3D } from '../store/objectRegistry';
 export function Sun() {
   const meshRef = useRef<THREE.Mesh>(null);
   const texture = useSafeTexture(SUN.texture);
-  const select = useSimStore((s) => s.select);
   const paused = useSimStore((s) => s.paused);
 
   // Register the sun's mesh so the camera can focus on it when selected,
@@ -28,12 +27,7 @@ export function Sun() {
   });
 
   return (
-    <group
-      onClick={(e) => {
-        e.stopPropagation();
-        select('sun', 'sun', 14);
-      }}
-    >
+    <group>
       {/* decay={0} so every planet, near or far, receives even sunlight — the
           direction is what creates the day/night terminator, not distance. */}
       <pointLight color={0xffe6b3} intensity={2.4} decay={0} />
