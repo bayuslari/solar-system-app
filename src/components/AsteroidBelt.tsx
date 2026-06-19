@@ -58,7 +58,14 @@ export function AsteroidBelt() {
         }}
       >
         <dodecahedronGeometry args={[1, 0]} />
-        <meshStandardMaterial color="#8a7d6e" roughness={1} />
+        {/* Small emissive floor keeps the belt as visible as before now that
+            ambient light is lower for the day/night effect. */}
+        <meshStandardMaterial
+          color="#8a7d6e"
+          emissive="#8a7d6e"
+          emissiveIntensity={0.3}
+          roughness={1}
+        />
       </instancedMesh>
     </group>
   );

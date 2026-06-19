@@ -66,10 +66,27 @@ export function Planet({ planet }: Props) {
               }}
             >
               <sphereGeometry args={[planet.sceneSize, 40, 40]} />
+              {/* Lit by the sun's point light so the sphere has a day side and
+                  a dark night side. emissiveMap paints the same texture back at
+                  low intensity, so the night side keeps the planet's real
+                  colours instead of washing out to grey. */}
               {texture ? (
-                <meshBasicMaterial map={texture} />
+                <meshStandardMaterial
+                  map={texture}
+                  emissive="#ffffff"
+                  emissiveMap={texture}
+                  emissiveIntensity={0.25}
+                  roughness={1}
+                  metalness={0}
+                />
               ) : (
-                <meshBasicMaterial color={planet.color} />
+                <meshStandardMaterial
+                  color={planet.color}
+                  emissive={planet.color}
+                  emissiveIntensity={0.25}
+                  roughness={1}
+                  metalness={0}
+                />
               )}
             </mesh>
 

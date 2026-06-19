@@ -22,7 +22,10 @@ export function Scene() {
       }}
     >
       <color attach="background" args={['#050810']} />
-      <ambientLight intensity={0.35} color={'#ffffff'} />
+      {/* Low ambient so the side facing away from the sun reads as night.
+          Planets keep their colour there via an emissive texture floor, so a
+          dark side never collapses into flat grey. */}
+      <ambientLight intensity={0.12} color={'#ffffff'} />
 
       <StarField />
       <Sun />

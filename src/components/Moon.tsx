@@ -49,10 +49,25 @@ export function Moon({ moon }: Props) {
         }}
       >
         <sphereGeometry args={[moon.sceneSize, 16, 16]} />
+        {/* Same day/night treatment as planets: lit by the sun with an
+            emissive texture floor so the dark side stays coloured, not grey. */}
         {texture ? (
-          <meshBasicMaterial map={texture} />
+          <meshStandardMaterial
+            map={texture}
+            emissive="#ffffff"
+            emissiveMap={texture}
+            emissiveIntensity={0.25}
+            roughness={1}
+            metalness={0}
+          />
         ) : (
-          <meshBasicMaterial color={'#b8b8b8'} />
+          <meshStandardMaterial
+            color={'#b8b8b8'}
+            emissive={'#b8b8b8'}
+            emissiveIntensity={0.25}
+            roughness={1}
+            metalness={0}
+          />
         )}
       </mesh>
     </group>
