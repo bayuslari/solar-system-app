@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Scene } from './components/Scene';
 import { Header } from './components/hud/Header';
 import { Controls } from './components/hud/Controls';
@@ -46,41 +47,44 @@ export default function App() {
   if (!ready) return <LoadingScreen progress={progress} />;
 
   return (
-    <div className="app app-enter">
-      <div className="canvas-wrap">
-        <Scene />
-      </div>
-      <div className="hud">
-        <Header />
-
-        {/* Mobile-only: collapse the settings panels behind a hamburger so they
-            don't cover the scene. On desktop the button is hidden and the
-            drawer lays its children out in their usual fixed positions. */}
-        <button
-          className={'hamburger' + (menuOpen ? ' open' : '')}
-          aria-label="Toggle controls"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((o) => !o)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-        {menuOpen && (
-          <div className="drawer-backdrop" onClick={() => setMenuOpen(false)} />
-        )}
-        <div className={'settings-drawer' + (menuOpen ? ' open' : '')}>
-          <Controls />
-          <EclipsePanel />
+    <>
+      <div className="app app-enter">
+        <div className="canvas-wrap">
+          <Scene />
         </div>
+        <div className="hud">
+          <Header />
 
-        <p className="scale-note">
-          Sizes &amp; distances adjusted for visibility — not to true scale. Orbital
-          inclinations are real.
-        </p>
-        <DataCard />
-        <Chips />
+          {/* Mobile-only: collapse the settings panels behind a hamburger so they
+              don't cover the scene. On desktop the button is hidden and the
+              drawer lays its children out in their usual fixed positions. */}
+          <button
+            className={'hamburger' + (menuOpen ? ' open' : '')}
+            aria-label="Toggle controls"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+          {menuOpen && (
+            <div className="drawer-backdrop" onClick={() => setMenuOpen(false)} />
+          )}
+          <div className={'settings-drawer' + (menuOpen ? ' open' : '')}>
+            <Controls />
+            <EclipsePanel />
+          </div>
+
+          <p className="scale-note">
+            Sizes &amp; distances adjusted for visibility — not to true scale. Orbital
+            inclinations are real.
+          </p>
+          <DataCard />
+          <Chips />
+        </div>
       </div>
-    </div>
+      <Analytics />
+    </>
   );
 }
