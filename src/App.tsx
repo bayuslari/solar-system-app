@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Scene } from './components/Scene';
 import { Header } from './components/hud/Header';
 import { Controls } from './components/hud/Controls';
@@ -43,7 +44,14 @@ export default function App() {
     };
   }, []);
 
-  if (!ready) return <LoadingScreen progress={progress} />;
+  if (!ready) {
+    return (
+      <>
+        <LoadingScreen progress={progress} />
+        <Analytics />
+      </>
+    );
+  }
 
   return (
     <div className="app app-enter">
@@ -81,6 +89,7 @@ export default function App() {
         <DataCard />
         <Chips />
       </div>
+      <Analytics />
     </div>
   );
 }
