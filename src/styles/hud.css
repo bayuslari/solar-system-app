@@ -145,6 +145,21 @@ body,
   padding-top: 8px;
   gap: 12px;
 }
+.footer-credit {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-align: right;
+}
+.footer-credit a {
+  color: var(--mute);
+  text-decoration: none;
+}
+.footer-credit a:hover {
+  color: var(--signal);
+}
 .clock-val {
   color: var(--ember);
   font-weight: 700;

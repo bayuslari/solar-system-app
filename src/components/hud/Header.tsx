@@ -47,6 +47,11 @@ export function Header() {
         <span>Elapsed</span>
         <span className="clock-val">T+{Math.round(missionClock.elapsedDays)}d</span>
       </div>
+      <div className="footer-credit">
+        <a href="https://bayuslari.com" target="_blank" rel="noopener noreferrer">
+          © bayuslari.com
+        </a>
+      </div>
     </div>
   );
 }
