@@ -149,16 +149,17 @@ body,
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px solid var(--line);
-  font-size: 9px;
-  letter-spacing: 0.04em;
+  font-size: 11px;
+  letter-spacing: 0.05em;
   text-align: right;
 }
 .footer-credit a {
-  color: var(--mute);
+  color: var(--signal);
+  font-weight: 700;
   text-decoration: none;
 }
 .footer-credit a:hover {
-  color: var(--signal);
+  color: var(--ember);
 }
 .clock-val {
   color: var(--ember);

@@ -8,6 +8,25 @@ import { DataCard } from './components/hud/DataCard';
 import { EclipsePanel } from './components/hud/EclipsePanel';
 import { preloadTextures } from './hooks/useSafeTexture';
 import { allTexturePaths } from './utils/textureManifest';
+import { useSimStore } from './store/useSimStore';
+
+// Elements where Space is expected to do its native thing (activate a
+// button, type a space) instead of toggling playback.
+const TYPING_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON']);
+
+function usePauseHotkey() {
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.code !== 'Space' || e.repeat) return;
+      const tag = (e.target as HTMLElement | null)?.tagName ?? '';
+      if (TYPING_TAGS.has(tag)) return;
+      e.preventDefault();
+      useSimStore.getState().togglePause();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+}
 
 function LoadingScreen({ progress }: { progress: number }) {
   return (
@@ -26,6 +45,8 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  usePauseHotkey();
 
   useEffect(() => {
     let active = true;
